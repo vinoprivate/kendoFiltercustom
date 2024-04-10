@@ -93,46 +93,6 @@ export default function GridColumnMenu(props) {
     }
   };
 
-  useEffect(() => {
-    const customColumn = props?.customCol || {};
-    const filters = props?.filter?.filters || [];
-    const { gridClass, childClass } = props;
-
-    if (filters?.length > 0) {
-      const elements = document?.querySelectorAll(
-        `${gridClass ? `.${gridClass}` : ""} ${
-          childClass ? `> :not(${childClass}) >` : ""
-        } .k-grid-header .k-cell-inner`
-      );
-      const filteredCol = filters?.map((data) => data?.filters?.[0]?.field);
-      const availColTitle = filteredCol?.map((data) => {
-        if (customColumn[data]) {
-          return customColumn[data].title;
-        }
-        return columns?.find((rec) => rec?.field === data)?.title;
-      });
-      [...elements]?.forEach((node) => {
-        if (availColTitle?.includes(node?.innerText)) {
-          node
-            ?.querySelector(".k-grid-column-menu.k-grid-filter")
-            ?.classList?.add("bg-info");
-        } else {
-          node
-            ?.querySelector(".k-grid-column-menu.k-grid-filter.bg-info")
-            ?.classList?.remove("bg-info");
-        }
-      });
-    } else {
-      const filteredElement = document?.querySelector(
-        `${gridClass ? `.${gridClass}` : ""} ${
-          childClass ? `> :not(${childClass}) >` : ""
-        } .k-grid-header .k-grid-column-menu.k-grid-filter.bg-info`
-      );
-      if (filteredElement) {
-        filteredElement?.classList?.remove("bg-info");
-      }
-    }
-  }, [columns, props]);
 
   const oneVisibleColumn = columns.filter((c) => c.show).length === 1;
 
